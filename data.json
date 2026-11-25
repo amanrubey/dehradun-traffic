@@ -1,10 +1,10 @@
 {
   "title": "Dehradun traffic dashboard",
-  "lastUpdated": "25 Nov 2026, 1:15 PM IST",
+  "lastUpdated": "25 Nov 2026, 4:10 PM IST",
   "timezone": "Asia/Calcutta",
   "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
   "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
-  "latestReading": "Wed 25 Nov 2026 afternoon, around 1:10 PM IST",
+  "latestReading": "Wed 25 Nov 2026 leave-by, around 4:05 PM IST",
   "routes": [
     {
       "key": "gms",
@@ -518,6 +518,18 @@
       "centrio": 17,
       "himadri": 39,
       "notes": "GMS via Kanwali Rd 8 (GMS Rd 9, heavier than usual). Clock Tower alt 14. Centrio alts 21 and 23. Himadri alts 40 and 47."
+    },
+    {
+      "date": "2026-11-25",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "leave",
+      "gms": null,
+      "clock": null,
+      "pacific": null,
+      "centrio": null,
+      "himadri": 37,
+      "notes": "Ballupur to Himadri 37 min/11.5 km via Raipur Rd/Chakrata Rd; alts 43 min (Raipur Rd, 14.3 km) and 50 min (Haridwar Rd, heavier than usual). Other routes not recorded."
     }
   ],
   "returns": [
