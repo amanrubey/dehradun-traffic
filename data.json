@@ -1,0 +1,536 @@
+{
+  "title": "Dehradun traffic dashboard",
+  "lastUpdated": "25 Nov 2026, 12:48 PM IST",
+  "timezone": "Asia/Calcutta",
+  "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
+  "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
+  "latestReading": "Wed 25 Nov 2026 morning, around 9:10 AM IST",
+  "routes": [
+    {
+      "key": "gms",
+      "label": "Balliwala to Ballupur",
+      "short": "GMS Rd"
+    },
+    {
+      "key": "clock",
+      "label": "Ballupur to Clock Tower",
+      "short": "Clock Tower"
+    },
+    {
+      "key": "pacific",
+      "label": "Clock Tower to Pacific Mall",
+      "short": "Pacific Mall"
+    },
+    {
+      "key": "centrio",
+      "label": "Ballupur to Centrio Mall",
+      "short": "Centrio Mall"
+    },
+    {
+      "key": "himadri",
+      "label": "Ballupur to Himadri Ice Rink",
+      "short": "Himadri"
+    }
+  ],
+  "slotMeta": {
+    "morning": {
+      "label": "Morning ~9 AM",
+      "short": "AM"
+    },
+    "evening": {
+      "label": "Evening ~6 PM",
+      "short": "PM"
+    },
+    "afternoon": {
+      "label": "Afternoon ~1 PM",
+      "short": "1 PM"
+    },
+    "leave": {
+      "label": "Leave-by ~4 PM",
+      "short": "4 PM"
+    }
+  },
+  "readings": [
+    {
+      "date": "2026-11-06",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 10,
+      "pacific": 12,
+      "centrio": 13,
+      "himadri": 31,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-06",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 7,
+      "clock": 17,
+      "pacific": 16,
+      "centrio": 19,
+      "himadri": 43,
+      "notes": "Clock Tower: Kaulagarh Rd also 17, Shaheed Kashmir Singh Rd 18. Centrio alt Kaulagarh Rd 25. Himadri via Chakrata Rd and Raipur Rd; alts 44 and 51."
+    },
+    {
+      "date": "2026-11-07",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 10,
+      "pacific": 11,
+      "centrio": null,
+      "himadri": null,
+      "notes": "Centrio and Himadri were not recorded this morning. Clock Tower alt Kaulagarh Rd 11."
+    },
+    {
+      "date": "2026-11-07",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "evening",
+      "gms": 7,
+      "clock": 14,
+      "pacific": 18,
+      "centrio": 18,
+      "himadri": 44,
+      "notes": "Centrio alt 22. Himadri via Chakrata Rd and Raipur Rd; Raipur Rd alt 49."
+    },
+    {
+      "date": "2026-11-08",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 7,
+      "pacific": 10,
+      "centrio": 12,
+      "himadri": 26,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-08",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "evening",
+      "gms": 5,
+      "clock": 11,
+      "pacific": 13,
+      "centrio": 15,
+      "himadri": 37,
+      "notes": "Fastest Himadri evening so far. Raipur Rd alt 39."
+    },
+    {
+      "date": "2026-11-09",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 7,
+      "pacific": 10,
+      "centrio": 13,
+      "himadri": 27,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-09",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 11,
+      "clock": 15,
+      "pacific": 19,
+      "centrio": 17,
+      "himadri": 52,
+      "notes": "GMS Rd faster than Kanwali Rd (13). Pacific alt 21. Centrio alts 22. Himadri Raipur Rd alt 53."
+    },
+    {
+      "date": "2026-11-10",
+      "weekday": "Tue",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 6,
+      "clock": 8,
+      "pacific": 10,
+      "centrio": 13,
+      "himadri": 27,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-10",
+      "weekday": "Tue",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 6,
+      "clock": 16,
+      "pacific": 20,
+      "centrio": 21,
+      "himadri": 55,
+      "notes": "Himadri Raipur Rd alt 57."
+    },
+    {
+      "date": "2026-11-11",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 6,
+      "clock": 8,
+      "pacific": 10,
+      "centrio": 13,
+      "himadri": 28,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-11",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 9,
+      "clock": 18,
+      "pacific": 17,
+      "centrio": 20,
+      "himadri": 58,
+      "notes": "Balliwala via Kanwali Rd. Clock Tower fastest via Shaheed Kashmir Singh Rd and Kaulagarh Rd 18; Chakrata Rd 20, Kaulagarh Rd 21."
+    },
+    {
+      "date": "2026-11-12",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 9,
+      "pacific": 11,
+      "centrio": 14,
+      "himadri": 29,
+      "notes": "Kanwali Rd 7. Clock Tower alt Kaulagarh Rd 11."
+    },
+    {
+      "date": "2026-11-12",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 14,
+      "clock": null,
+      "pacific": null,
+      "centrio": null,
+      "himadri": null,
+      "notes": "Only GMS Rd was recorded; it was jammed. The other four routes are missing."
+    },
+    {
+      "date": "2026-11-13",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 8,
+      "pacific": 11,
+      "centrio": 14,
+      "himadri": 30,
+      "notes": "Kanwali Rd 6."
+    },
+    {
+      "date": "2026-11-13",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 10,
+      "clock": 17,
+      "pacific": 18,
+      "centrio": 19,
+      "himadri": 61,
+      "notes": "Kanwali Rd faster than GMS Rd (13). Clock Tower 17 via Chakrata Rd and Omkar Rd; direct Chakrata Rd 20. Himadri 1 hr 1 min via Chakrata Rd and Raipur Rd."
+    },
+    {
+      "date": "2026-11-14",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 8,
+      "pacific": 11,
+      "centrio": 13,
+      "himadri": 28,
+      "notes": "Clock Tower alt Kaulagarh Rd 9."
+    },
+    {
+      "date": "2026-11-14",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "evening",
+      "gms": 14,
+      "clock": 22,
+      "pacific": 23,
+      "centrio": 18,
+      "himadri": 58,
+      "notes": "GMS Rd a minute quicker than Kanwali Rd (15). Himadri via Chakrata Rd and Raipur Rd; Raipur Rd alt 59."
+    },
+    {
+      "date": "2026-11-15",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 7,
+      "pacific": 10,
+      "centrio": 12,
+      "himadri": 26,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-15",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "evening",
+      "gms": 6,
+      "clock": 13,
+      "pacific": 16,
+      "centrio": 20,
+      "himadri": 51,
+      "notes": "Kanwali Rd 9. Clock Tower alt Kaulagarh Rd 15. Himadri via Ugrasain Rd."
+    },
+    {
+      "date": "2026-11-16",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 7,
+      "clock": 10,
+      "pacific": 11,
+      "centrio": 13,
+      "himadri": 31,
+      "notes": ""
+    },
+    {
+      "date": "2026-11-16",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 10,
+      "clock": 20,
+      "pacific": 17,
+      "centrio": 18,
+      "himadri": 58,
+      "notes": "Kanwali Rd and GMS Rd both 10. Clock Tower via Shaheed Kashmir Singh Rd and Kaulagarh Rd."
+    },
+    {
+      "date": "2026-11-17",
+      "weekday": "Tue",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 10,
+      "clock": 27,
+      "pacific": 17,
+      "centrio": 18,
+      "himadri": 57,
+      "notes": "Kanwali Rd and GMS Rd both 10. Clock Tower 27 with an 18 min delay on Chakrata Rd."
+    },
+    {
+      "date": "2026-11-18",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 9,
+      "pacific": 11,
+      "centrio": 14,
+      "himadri": 35,
+      "notes": "Slowest weekday morning to Himadri, about 5 min slower than usual, with slow patches near Banjarawala and Jogiwala."
+    },
+    {
+      "date": "2026-11-18",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 9,
+      "clock": 23,
+      "pacific": 16,
+      "centrio": 22,
+      "himadri": 61,
+      "notes": "Kanwali Rd; GMS Rd 10. Clock Tower 23 on both Shaheed Kashmir Singh / Kaulagarh Rd and Chakrata Rd (11 min delay). Centrio alts 25–26. Himadri 1 hr 1 min via Raipur Rd; Saharanpur Rd 1 hr 2 min."
+    },
+    {
+      "date": "2026-11-19",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 10,
+      "pacific": 12,
+      "centrio": 14,
+      "himadri": 31,
+      "notes": "Kanwali Rd 7. Clock Tower alt Kaulagarh Rd 11."
+    },
+    {
+      "date": "2026-11-19",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 9,
+      "clock": 18,
+      "pacific": 16,
+      "centrio": 19,
+      "himadri": 54,
+      "notes": "Kanwali Rd; GMS Rd 10. Clock Tower Chakrata Rd faster than Kaulagarh Rd (20). Centrio Chakrata Rd 21. Himadri Haridwar Rd 58."
+    },
+    {
+      "date": "2026-11-20",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 8,
+      "pacific": 10,
+      "centrio": 14,
+      "himadri": 30,
+      "notes": "Kanwali Rd 6. Clock Tower alt Kaulagarh Rd 10."
+    },
+    {
+      "date": "2026-11-20",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 6,
+      "clock": 14,
+      "pacific": 16,
+      "centrio": 20,
+      "himadri": 46,
+      "notes": "Fastest weekday evening to Himadri so far. Clock Tower alt Kaulagarh Rd 16. Chakrata Rd to Centrio also 20. Himadri Haridwar Rd 54."
+    },
+    {
+      "date": "2026-11-21",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 9,
+      "pacific": 11,
+      "centrio": 13,
+      "himadri": 29,
+      "notes": "Clock Tower alt Kaulagarh Rd 10."
+    },
+    {
+      "date": "2026-11-21",
+      "weekday": "Sat",
+      "dayType": "Saturday",
+      "slot": "evening",
+      "gms": 9,
+      "clock": 27,
+      "pacific": 16,
+      "centrio": 22,
+      "himadri": 67,
+      "notes": "Worst evening so far. GMS Rd and Kanwali Rd both 9. Clock Tower 27 via Chakrata Rd (15 min delay); Kaulagarh Rd 28. Centrio via Chakrata Rd; avoid Shaheed Kashmir Singh Rd (30, 13 min delay). Himadri 1 hr 7 min via GMS Rd and Haridwar Rd; Chakrata Rd and Raipur Rd slower at 1 hr 12 min."
+    },
+    {
+      "date": "2026-11-22",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 8,
+      "pacific": 10,
+      "centrio": 12,
+      "himadri": 27,
+      "notes": "Clock Tower alt Kaulagarh Rd 10."
+    },
+    {
+      "date": "2026-11-22",
+      "weekday": "Sun",
+      "dayType": "Sunday",
+      "slot": "evening",
+      "gms": 6,
+      "clock": 13,
+      "pacific": 23,
+      "centrio": 19,
+      "himadri": 47,
+      "notes": "Kanwali Rd 9. Clock Tower via Chakrata Rd and Omkar Rd; straight Chakrata Rd 16. Pacific Mall: take the slightly longer Rajpur Rd route; direct Rajpur Rd 27 with a 13 min delay. Centrio alts Shaheed Kashmir Singh Rd and Kaulagarh Rd 20. Himadri via Haridwar Rd; Chakrata Rd and Raipur Rd 49."
+    },
+    {
+      "date": "2026-11-23",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 9,
+      "pacific": 11,
+      "centrio": 14,
+      "himadri": 32,
+      "notes": "Clock Tower alt Kaulagarh Rd 10. Centrio alt Chakrata Rd and Rajpur Rd 15."
+    },
+    {
+      "date": "2026-11-23",
+      "weekday": "Mon",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 10,
+      "clock": 18,
+      "pacific": 15,
+      "centrio": 17,
+      "himadri": 57,
+      "notes": "Kanwali Rd and GMS Rd both 10. Clock Tower via Shaheed Kashmir Singh Rd and Kaulagarh Rd; direct Chakrata Rd 21. Himadri via Chakrata Rd and Raipur Rd; Raipur Rd 58."
+    },
+    {
+      "date": "2026-11-24",
+      "weekday": "Tue",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 4,
+      "clock": 7,
+      "pacific": 10,
+      "centrio": 13,
+      "himadri": 26,
+      "notes": "Clock Tower alt Kaulagarh Rd 9. Himadri alts 28 and 33."
+    },
+    {
+      "date": "2026-11-24",
+      "weekday": "Tue",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 6,
+      "clock": 14,
+      "pacific": 15,
+      "centrio": 19,
+      "himadri": 55,
+      "notes": "Clock Tower alt Kaulagarh Rd 16. Centrio Chakrata Rd 20. Himadri Haridwar Rd 57; Theva Maldevta Rd 1 hr 8 min."
+    },
+    {
+      "date": "2026-11-25",
+      "weekday": "Wed",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 10,
+      "pacific": 11,
+      "centrio": 13,
+      "himadri": 32,
+      "notes": "Clock Tower alt Kaulagarh Rd 11. Himadri Thano Rd also 32; Haridwar Rd 37."
+    }
+  ],
+  "returns": [
+    {
+      "date": "2026-11-24",
+      "weekday": "Tue",
+      "timeLabel": "around 7:10 PM IST",
+      "minutes": 46,
+      "via": "Raipur Rd",
+      "notes": "The Raipur Rd and Chakrata Rd route was the same time; Chakrata Rd alone took 49 min. Traffic was still heavy."
+    }
+  ],
+  "gaps": [
+    "Sat 7 Nov morning is missing Centrio and Himadri.",
+    "Thu 12 Nov evening has only GMS Rd (14 min, jammed); the other four routes were not recorded.",
+    "Tue 17 Nov morning is missing entirely.",
+    "The 1 PM, 4 PM, and 6/7 PM return-trip checks started on 24–25 Nov, so those slots are still coming in — except one return: Himadri to Ballupur on Tue 24 Nov at about 7:10 PM IST took 46 min via Raipur Rd. The 25 Nov evening check had not run when this site was first published."
+  ],
+  "alternatives": {
+    "kanwaliVsGms": "Both driving times were recorded on 11 evenings. Kanwali Rd was faster 3 times (13, 18 and 19 Nov, usually by a minute). GMS Rd was faster 4 times (9, 14, 15 and 22 Nov). They tied 4 times (16, 17, 21 and 23 Nov). On several other evenings only GMS Rd was listed (including the 14 min jams on 12 and 14 Nov). On 11 Nov only Kanwali Rd (9 min) was a clear driving option in the report.",
+    "clockTowerRoutes": "When both were timed, Chakrata Rd (sometimes with Omkar Rd) was usually as fast or faster: 15, 19, 20, 21, 22 and 24 Nov evenings, and 13 Nov when Chakrata Rd and Omkar Rd took 17 min versus 20 on direct Chakrata Rd. Shaheed Kashmir Singh Rd and Kaulagarh Rd were clearly faster on 11 Nov (18 vs 20) and 23 Nov (18 vs 21), and both options took 23 min on 18 Nov. On the two 27 min evenings (17 and 21 Nov) Chakrata Rd had a long delay; Kaulagarh Rd was not better on 21 Nov (28 min)."
+  },
+  "rink": {
+    "sessionHours": "5 to 7 PM",
+    "arriveBy": "4:45 PM",
+    "from": "Ballupur"
+  }
+}

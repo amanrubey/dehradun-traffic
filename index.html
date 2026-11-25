@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Driving times for five Ballupur-area routes in Dehradun, from live Google Maps checks.">
+  <title>Dehradun traffic dashboard</title>
+  <style>
+    :root {
+      --paper: #f3efe6;
+      --card: #fffdf8;
+      --ink: #1c1916;
+      --muted: #5e574f;
+      --line: #ddd4c6;
+      --line-strong: #c8bdae;
+      --morning: #1b6b5c;
+      --morning-soft: #d7efe9;
+      --evening: #b5431f;
+      --evening-soft: #f8e4db;
+      --good: #1e6b3c;
+      --good-bg: #e5f3ea;
+      --warn: #8a4b12;
+      --warn-bg: #f8ead6;
+      --bad: #9b1c1c;
+      --bad-bg: #f8e2e0;
+      --info-bg: #e8eef3;
+      --info: #1e3a4c;
+      --shadow: 0 1px 2px rgba(28,25,22,.06), 0 8px 24px rgba(28,25,22,.05);
+      --radius: 14px;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.55 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--evening); }
+    header.hero {
+      background: #171412;
+      color: #f6f0e6;
+      padding: 2rem 1.25rem 1.6rem;
+    }
+    .wrap { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+    header.hero .wrap { width: min(1120px, calc(100% - 2.5rem)); }
+    .kicker {
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      color: #d9b59a;
+      margin: 0 0 .6rem;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -.02em;
+      margin: 0 0 .5rem;
+      line-height: 1.15;
+    }
+    .lede { color: #d8d0c5; margin: 0 0 1rem; max-width: 46rem; }
+    .updated {
+      display: inline-block;
+      background: #2a2420;
+      border: 1px solid #3d342e;
+      color: #f0e6d8;
+      border-radius: 999px;
+      padding: .35rem .8rem;
+      font-size: .85rem;
+    }
+    .updated strong { font-weight: 650; color: #fff; }
+    main { padding: 1.4rem 0 4rem; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .8rem;
+      margin: -1.6rem 0 1.2rem;
+      position: relative;
+    }
+    .metric {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1rem .9rem;
+      border: 1px solid var(--line);
+    }
+    .metric .num {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 600;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+    }
+    .metric .lbl { color: var(--muted); font-size: .82rem; margin-top: .35rem; }
+    .metric.bad .num { color: var(--bad); }
+    .metric.good .num { color: var(--good); }
+    .callout {
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      margin: 0 0 .8rem;
+      border: 1px solid var(--line);
+    }
+    .callout.info { background: var(--info-bg); border-color: #c9d6e0; }
+    .callout.gap { background: var(--card); }
+    .callout h2, section h2 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      margin: 0 0 .45rem;
+      font-weight: 600;
+    }
+    .callout p, .callout li { margin: 0; color: var(--ink); }
+    .callout ul { margin: .35rem 0 0; padding-left: 1.15rem; }
+    .callout li + li { margin-top: .25rem; }
+    section.block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.15rem 1.15rem 1.25rem;
+      margin: 0 0 1rem;
+    }
+    section.block h2 { font-size: 1.35rem; margin-bottom: .3rem; }
+    .caption { color: var(--muted); font-size: .88rem; margin: 0 0 1rem; }
+    .filters { display: flex; flex-direction: column; gap: .7rem; }
+    .pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .pills button {
+      appearance: none;
+      border: 1px solid var(--line-strong);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: .4rem .75rem;
+      font: inherit;
+      font-size: .88rem;
+      cursor: pointer;
+    }
+    .pills button[aria-pressed="true"] {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -.2rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+      min-width: 640px;
+    }
+    table.compact { min-width: 720px; }
+    th, td {
+      text-align: left;
+      padding: .5rem .6rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { font-weight: 650; font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    th.num { text-align: right; }
+    td.notes { color: var(--muted); font-size: .82rem; min-width: 16rem; }
+    tr.tone-success td:first-child { box-shadow: inset 3px 0 0 var(--good); }
+    tr.tone-warning { background: var(--warn-bg); }
+    tr.tone-danger { background: var(--bad-bg); }
+    .charts { display: grid; gap: 1rem; }
+    .charts.two { grid-template-columns: 1fr 1fr; }
+    .chart-card h3 {
+      font-size: .92rem;
+      margin: 0 0 .5rem;
+      font-weight: 650;
+    }
+    .chart-card svg { display: block; width: 100%; height: auto; }
+    .legend { display: flex; flex-wrap: wrap; gap: .55rem 1rem; font-size: .8rem; color: var(--muted); margin: 0 0 .7rem; }
+    .legend i { display: inline-block; width: .7rem; height: .7rem; border-radius: 2px; margin-right: .3rem; vertical-align: -1px; }
+    .route-block { margin-top: 1.1rem; }
+    .route-block h3 {
+      font-family: var(--serif);
+      font-size: 1.12rem;
+      margin: 0 0 .65rem;
+    }
+    .advice p { margin: 0 0 .7rem; }
+    .advice p:last-child { margin-bottom: 1rem; }
+    footer {
+      color: var(--muted);
+      font-size: .82rem;
+      padding: 0 0 2rem;
+    }
+    .err {
+      background: var(--bad-bg);
+      border: 1px solid #e3b6b3;
+      padding: 1rem;
+      border-radius: var(--radius);
+    }
+    @media (max-width: 860px) {
+      .metrics { grid-template-columns: 1fr 1fr; margin-top: 1rem; }
+      .charts.two { grid-template-columns: 1fr; }
+      header.hero { padding-top: 1.5rem; }
+    }
+    @media (max-width: 520px) {
+      .wrap, header.hero .wrap { width: calc(100% - 1.5rem); }
+      .metric { padding: .85rem .8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="kicker">Dehradun · Ballupur routes</p>
+      <h1>Traffic dashboard</h1>
+      <p class="lede" id="lede">Driving times from Google Maps for five Ballupur-area routes.</p>
+      <p class="updated">Last updated: <strong id="updated">…</strong></p>
+    </div>
+  </header>
+  <main class="wrap" id="app"><p>Loading readings…</p></main>
+  <footer class="wrap" id="foot"></footer>
+  <script>
+  (function () {
+    const SLOT_ORDER = ["morning", "afternoon", "leave", "evening"];
+    const DAY_TYPES = ["Weekday", "Saturday", "Sunday"];
+    const BAR_LABELS = ["Weekday AM", "Sat AM", "Sun AM", "Weekday PM", "Sat PM", "Sun PM"];
+    const SERIES_COLORS = ["#1b6b5c", "#2f5d8c", "#b5431f", "#8a4b12", "#5b3a8a"];
+
+    function fmt(mins) {
+      if (mins == null || Number.isNaN(mins)) return "—";
+      if (mins < 60) return mins + " min";
+      const h = Math.floor(mins / 60);
+      const m = Math.round(mins % 60);
+      if (m === 0) return h + " hr";
+      return h + " hr " + m + " min";
+    }
+    function avg(values) {
+      if (!values.length) return null;
+      return values.reduce((a, b) => a + b, 0) / values.length;
+    }
+    function round1(n) {
+      return Math.round(n * 10) / 10;
+    }
+    function fmtAvg(values) {
+      const a = avg(values);
+      if (a == null) return "—";
+      const r = round1(a);
+      const avgText = Number.isInteger(r) ? String(r) : r.toFixed(1);
+      return avgText + " min (" + fmt(Math.min(...values)) + " – " + fmt(Math.max(...values)) + ", n=" + values.length + ")";
+    }
+    function fmtShortAvg(values) {
+      const a = avg(values);
+      if (a == null) return "—";
+      const r = round1(a);
+      return (Number.isInteger(r) ? String(r) : r.toFixed(1)) + " min";
+    }
+    function valuesFor(readings, route, slot, dayType) {
+      return readings
+        .filter((r) => r.slot === slot && r[route] != null && (dayType == null || r.dayType === dayType))
+        .map((r) => r[route]);
+    }
+    function shortDate(r) {
+      return Number(r.date.slice(8)) + " " + r.weekday;
+    }
+    function longDate(r) {
+      return r.weekday + " " + Number(r.date.slice(8)) + " Nov";
+    }
+    function slotLabel(data, slot) {
+      return (data.slotMeta && data.slotMeta[slot] && data.slotMeta[slot].label) || slot;
+    }
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    function rowTone(r) {
+      if (r.himadri != null && r.slot === "evening" && r.himadri >= 61) return "danger";
+      if (r.himadri != null && r.slot === "evening" && r.himadri >= 55) return "warning";
+      if (r.clock != null && r.slot === "evening" && r.clock >= 27) return "warning";
+      if (r.gms != null && r.slot === "evening" && r.gms >= 14) return "warning";
+      if (r.slot === "morning") return "success";
+      return "";
+    }
+    function countTimes(data) {
+      const keys = data.routes.map((r) => r.key);
+      let n = 0;
+      data.readings.forEach((r) => keys.forEach((k) => { if (r[k] != null) n++; }));
+      n += (data.returns || []).length;
+      return n;
+    }
+    function uniqueSlots(readings) {
+      const present = new Set(readings.map((r) => r.slot));
+      const ordered = SLOT_ORDER.filter((s) => present.has(s));
+      present.forEach((s) => { if (!ordered.includes(s)) ordered.push(s); });
+      return ordered;
+    }
+
+    function svgEl(name, attrs, text) {
+      const el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      Object.entries(attrs || {}).forEach(([k, v]) => el.setAttribute(k, v));
+      if (text != null) el.textContent = text;
+      return el;
+    }
+
+    function lineChart(points, opts) {
+      const width = 560, height = 240;
+      const pad = { l: 36, r: 12, t: 16, b: 36 };
+      const iw = width - pad.l - pad.r, ih = height - pad.t - pad.b;
+      const ceiling = opts.ceiling;
+      const color = opts.color || "var(--evening)";
+      const svg = svgEl("svg", {
+        viewBox: "0 0 " + width + " " + height,
+        role: "img",
+        "aria-label": opts.label || "Line chart"
+      });
+      const max = ceiling || Math.max(10, Math.ceil((Math.max.apply(null, points.map((p) => p.value)) + 2) / 5) * 5);
+      const ticks = 4;
+      for (let i = 0; i <= ticks; i++) {
+        const val = (max / ticks) * i;
+        const y = pad.t + ih - (val / max) * ih;
+        svg.appendChild(svgEl("line", { x1: pad.l, x2: width - pad.r, y1: y, y2: y, stroke: "#ece4d8", "stroke-width": "1" }));
+        svg.appendChild(svgEl("text", { x: pad.l - 6, y: y + 3, "text-anchor": "end", fill: "#8a8278", "font-size": "10" }, String(Math.round(val))));
+      }
+      const n = points.length;
+      const xAt = (i) => pad.l + (n === 1 ? iw / 2 : (i / (n - 1)) * iw);
+      const yAt = (v) => pad.t + ih - (v / max) * ih;
+      let d = "";
+      points.forEach((p, i) => {
+        d += (i === 0 ? "M" : "L") + xAt(i) + " " + yAt(p.value) + " ";
+      });
+      if (points.length) {
+        svg.appendChild(svgEl("path", { d: d.trim(), fill: "none", stroke: color, "stroke-width": "2.4", "stroke-linejoin": "round", "stroke-linecap": "round" }));
+        points.forEach((p, i) => {
+          svg.appendChild(svgEl("circle", { cx: xAt(i), cy: yAt(p.value), r: 3.2, fill: color }));
+          const title = svgEl("title", {}, p.label + ": " + fmt(p.value));
+          const c = svgEl("circle", { cx: xAt(i), cy: yAt(p.value), r: 8, fill: "transparent" });
+          c.appendChild(title);
+          svg.appendChild(c);
+        });
+      }
+      const step = n > 10 ? Math.ceil(n / 8) : 1;
+      points.forEach((p, i) => {
+        if (i % step !== 0 && i !== n - 1) return;
+        svg.appendChild(svgEl("text", { x: xAt(i), y: height - 12, "text-anchor": "middle", fill: "#8a8278", "font-size": "10" }, p.label));
+      });
+      return svg;
+    }
+
+    function barChart(labels, series, opts) {
+      const width = 560, height = 260;
+      const pad = { l: 36, r: 8, t: 16, b: 48 };
+      const iw = width - pad.l - pad.r, ih = height - pad.t - pad.b;
+      const ceiling = opts.ceiling;
+      const svg = svgEl("svg", {
+        viewBox: "0 0 " + width + " " + height,
+        role: "img",
+        "aria-label": opts.label || "Bar chart"
+      });
+      const allVals = series.flatMap((s) => s.values);
+      const max = ceiling || Math.max(10, Math.ceil((Math.max.apply(null, allVals) + 2) / 5) * 5);
+      const ticks = 4;
+      for (let i = 0; i <= ticks; i++) {
+        const val = (max / ticks) * i;
+        const y = pad.t + ih - (val / max) * ih;
+        svg.appendChild(svgEl("line", { x1: pad.l, x2: width - pad.r, y1: y, y2: y, stroke: "#ece4d8", "stroke-width": "1" }));
+        svg.appendChild(svgEl("text", { x: pad.l - 6, y: y + 3, "text-anchor": "end", fill: "#8a8278", "font-size": "10" }, String(Math.round(val))));
+      }
+      const groups = labels.length;
+      const seriesN = series.length;
+      const groupW = iw / groups;
+      const gap = Math.min(10, groupW * 0.18);
+      const barW = Math.max(4, (groupW - gap * 2) / seriesN - 2);
+      labels.forEach((lab, gi) => {
+        series.forEach((s, si) => {
+          const v = s.values[gi] || 0;
+          const h = (v / max) * ih;
+          const x = pad.l + gi * groupW + gap + si * (barW + 2);
+          const y = pad.t + ih - h;
+          const rect = svgEl("rect", {
+            x: x, y: y, width: barW, height: Math.max(0, h),
+            fill: s.color, rx: "1.5"
+          });
+          rect.appendChild(svgEl("title", {}, s.name + ", " + lab + ": " + (v ? v + " min" : "—")));
+          svg.appendChild(rect);
+        });
+        const tx = pad.l + gi * groupW + groupW / 2;
+        const parts = lab.split(" ");
+        svg.appendChild(svgEl("text", { x: tx, y: height - 22, "text-anchor": "middle", fill: "#8a8278", "font-size": "10" }, parts[0]));
+        svg.appendChild(svgEl("text", { x: tx, y: height - 10, "text-anchor": "middle", fill: "#8a8278", "font-size": "10" }, parts.slice(1).join(" ")));
+      });
+      return svg;
+    }
+
+    function highlightText(data) {
+      const him = (slot, day) => valuesFor(data.readings, "himadri", slot, day);
+      const sunAm = him("morning", "Sunday");
+      const sunPm = him("evening", "Sunday");
+      const wdPm = him("evening", "Weekday");
+      const satPm = him("evening", "Saturday");
+      const city = ["gms", "clock", "pacific", "centrio"].map((k) => fmtShortAvg(valuesFor(data.readings, k, "morning", "Sunday")));
+      const parts = [];
+      parts.push("Sunday morning is the lightest drive: Himadri averaged " + fmtShortAvg(sunAm) + " (" + (sunAm.length ? fmt(Math.min(...sunAm)) + "–" + fmt(Math.max(...sunAm)) : "—") + "), and the four city routes were about " + city.join(", ").replace(/ min/g, "").replace(/, ([^,]*)$/, " and $1") + " min.");
+      const allAm = valuesFor(data.readings, "himadri", "morning");
+      parts.push(" Any morning is easy (Himadri " + (allAm.length ? fmt(Math.min(...allAm)) + "–" + fmt(Math.max(...allAm)) : "—") + ").");
+      parts.push(" Evenings take much longer, especially to Himadri: Sunday evenings averaged " + fmtShortAvg(sunPm) + " (" + (sunPm.length ? fmt(Math.min(...sunPm)) + "–" + fmt(Math.max(...sunPm)) : "—") + "), weekday evenings " + fmtShortAvg(wdPm) + " (" + (wdPm.length ? fmt(Math.min(...wdPm)) + "–" + fmt(Math.max(...wdPm)) : "—") + "), and Saturday evenings " + fmtShortAvg(satPm));
+      if (satPm.length) {
+        const worst = Math.max(...satPm);
+        const worstDays = data.readings.filter((r) => r.slot === "evening" && r.dayType === "Saturday" && r.himadri === worst).map(longDate);
+        parts.push(" with a spread of " + satPm.slice().sort((a,b)=>a-b).map(fmt).join(", ").replace(/, ([^,]*)$/, ", and a worst of $1") + (worstDays.length ? " on " + worstDays.join(", ") : "") + ".");
+      } else {
+        parts.push(".");
+      }
+      const clock27 = data.readings.filter((r) => r.slot === "evening" && r.clock != null && r.clock >= 27);
+      if (clock27.length) {
+        parts.push(" Clock Tower also hit " + fmt(Math.max(...clock27.map((r) => r.clock))) + " on " + clock27.map(longDate).join(" and ") + " evenings.");
+      }
+      return parts.join("");
+    }
+
+    function bestWorstCell(items, isBest) {
+      if (!items.length) return "—";
+      const val = isBest ? Math.min(...items.map((i) => i.value)) : Math.max(...items.map((i) => i.value));
+      const xs = items.filter((i) => i.value === val);
+      return fmt(val) + " (" + xs.map((x) => longDate(x.reading)).join(", ") + ")";
+    }
+
+    const state = { slot: "all", route: "all" };
+
+    function render(data) {
+      document.getElementById("updated").textContent = data.lastUpdated;
+      document.getElementById("lede").textContent = data.source;
+      const app = document.getElementById("app");
+      const routes = data.routes;
+      const readings = data.readings;
+      const slotsPresent = uniqueSlots(readings);
+      const nTimes = countTimes(data);
+      const mornings = readings.filter((r) => r.slot === "morning").length;
+      const evenings = readings.filter((r) => r.slot === "evening").length;
+      const himAll = readings.filter((r) => r.himadri != null);
+      const worstH = himAll.length ? himAll.reduce((a, b) => a.himadri >= b.himadri ? a : b) : null;
+      const bestHMorn = readings.filter((r) => r.slot === "morning" && r.himadri != null);
+      const bestHVal = bestHMorn.length ? Math.min(...bestHMorn.map((r) => r.himadri)) : null;
+
+      app.innerHTML = "";
+      const metrics = document.createElement("div");
+      metrics.className = "metrics";
+      metrics.innerHTML =
+        metric(nTimes, "Travel times recorded") +
+        metric(mornings + " + " + evenings, "Mornings and evenings covered") +
+        metric(worstH ? fmt(worstH.himadri) : "—", worstH ? "Worst trip: Himadri, " + longDate(worstH) + " evening" : "Worst trip", "bad") +
+        metric(bestHVal != null ? fmt(bestHVal) : "—", "Fastest Himadri mornings (Sun or midweek)", "good");
+      app.appendChild(metrics);
+
+      const stand = document.createElement("div");
+      stand.className = "callout info";
+      stand.innerHTML = "<h2>What stands out</h2><p>" + escapeHtml(highlightText(data)) + "</p>";
+      app.appendChild(stand);
+
+      const gaps = document.createElement("div");
+      gaps.className = "callout gap";
+      gaps.innerHTML = "<h2>Gaps in the record</h2><ul>" + (data.gaps || []).map((g) => "<li>" + escapeHtml(g) + "</li>").join("") + "</ul>";
+      app.appendChild(gaps);
+
+      const filterSec = section("Filters", "Choose a slot or route. Charts and the readings table follow these filters.");
+      const filters = document.createElement("div");
+      filters.className = "filters";
+      filters.appendChild(pills("slot", [{ value: "all", label: "All slots" }].concat(slotsPresent.map((s) => ({ value: s, label: slotLabel(data, s) })))));
+      filters.appendChild(pills("route", [{ value: "all", label: "All routes" }].concat(routes.map((r) => ({ value: r.key, label: r.short })))));
+      filterSec.appendChild(filters);
+      app.appendChild(filterSec);
+
+      const body = document.createElement("div");
+      body.id = "dash-body";
+      app.appendChild(body);
+      drawBody(data, body);
+
+      document.getElementById("foot").textContent =
+        "Source: Google Maps driving times. " + (data.coverage || "") + " Latest reading in this file: " + (data.latestReading || "") + ".";
+
+      function pills(kind, options) {
+        const row = document.createElement("div");
+        row.className = "pills";
+        row.setAttribute("role", "group");
+        options.forEach((opt) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.textContent = opt.label;
+          b.setAttribute("aria-pressed", state[kind] === opt.value ? "true" : "false");
+          b.addEventListener("click", () => {
+            state[kind] = opt.value;
+            row.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", "false"));
+            b.setAttribute("aria-pressed", "true");
+            drawBody(data, document.getElementById("dash-body"));
+          });
+          row.appendChild(b);
+        });
+        return row;
+      }
+    }
+
+    function section(title, caption) {
+      const s = document.createElement("section");
+      s.className = "block";
+      const h = document.createElement("h2");
+      h.textContent = title;
+      s.appendChild(h);
+      if (caption) {
+        const p = document.createElement("p");
+        p.className = "caption";
+        p.textContent = caption;
+        s.appendChild(p);
+      }
+      return s;
+    }
+
+    function metric(num, label, tone) {
+      return '<div class="metric' + (tone ? " " + tone : "") + '"><div class="num">' + escapeHtml(String(num)) + '</div><div class="lbl">' + escapeHtml(label) + "</div></div>";
+    }
+
+    function drawBody(data, body) {
+      body.innerHTML = "";
+      const routes = state.route === "all" ? data.routes : data.routes.filter((r) => r.key === state.route);
+      const slots = state.slot === "all" ? uniqueSlots(data.readings) : [state.slot];
+      const filtered = data.readings.filter((r) => state.slot === "all" || r.slot === state.slot);
+
+      const avgSec = section(
+        "Averages and ranges",
+        "Average, then the min–max range and how many readings (n). Saturday and Sunday each have fewer dates than weekdays. Missing cells were never recorded."
+      );
+      const avgCols = ["Route"].concat(DAY_TYPES.flatMap((d) => slots.map((s) => d + " " + ((data.slotMeta[s] && data.slotMeta[s].short) || s))));
+      const avgRows = routes.map((rt) => {
+        const cells = [rt.label];
+        DAY_TYPES.forEach((d) => slots.forEach((s) => cells.push(fmtAvg(valuesFor(data.readings, rt.key, s, d)))));
+        return cells;
+      });
+      avgSec.appendChild(makeTable(avgCols, avgRows, { firstWide: true }));
+      body.appendChild(avgSec);
+
+      const barSec = section("Average minutes by day type", "City routes and Himadri are split when all routes are shown, so the shorter trips are not flattened by the Himadri scale. If a slot has no reading, the bar is zero.");
+      const groups = DAY_TYPES.flatMap((d) => ["morning", "evening"].map((s) => ({ dayType: d, slot: s })));
+      const labels = BAR_LABELS;
+      if (state.route === "all") {
+        const grid = document.createElement("div");
+        grid.className = "charts two";
+        const cityCard = document.createElement("div");
+        cityCard.className = "chart-card";
+        cityCard.innerHTML = "<h3>City routes</h3>";
+        const legend = document.createElement("div");
+        legend.className = "legend";
+        data.routes.slice(0, 4).forEach((rt, i) => {
+          legend.innerHTML += "<span><i style=\"background:" + SERIES_COLORS[i] + "\"></i>" + escapeHtml(rt.short) + "</span>";
+        });
+        cityCard.appendChild(legend);
+        cityCard.appendChild(barChart(labels, data.routes.slice(0, 4).map((rt, i) => ({
+          name: rt.short,
+          color: SERIES_COLORS[i],
+          values: groups.map((g) => {
+            const a = avg(valuesFor(data.readings, rt.key, g.slot, g.dayType));
+            return a == null ? 0 : round1(a);
+          })
+        })), { ceiling: 25, label: "City route averages" }));
+        const himCard = document.createElement("div");
+        himCard.className = "chart-card";
+        himCard.innerHTML = "<h3>Himadri Ice Rink</h3>";
+        himCard.appendChild(barChart(labels, [{
+          name: "Himadri",
+          color: SERIES_COLORS[4],
+          values: groups.map((g) => {
+            const a = avg(valuesFor(data.readings, "himadri", g.slot, g.dayType));
+            return a == null ? 0 : round1(a);
+          })
+        }], { ceiling: 80, label: "Himadri averages" }));
+        grid.appendChild(cityCard);
+        grid.appendChild(himCard);
+        barSec.appendChild(grid);
+      } else {
+        const key = state.route;
+        const isH = key === "himadri";
+        const card = document.createElement("div");
+        card.className = "chart-card";
+        card.appendChild(barChart(labels, [{
+          name: routes[0].short,
+          color: isH ? SERIES_COLORS[4] : SERIES_COLORS[0],
+          values: groups.map((g) => {
+            const a = avg(valuesFor(data.readings, key, g.slot, g.dayType));
+            return a == null ? 0 : round1(a);
+          })
+        }], { ceiling: isH ? 80 : 25, label: routes[0].short + " averages" }));
+        barSec.appendChild(card);
+      }
+      body.appendChild(barSec);
+
+      const trendSec = section("Times over the month", "Only days with a real reading are plotted. November dates are labeled as “6 Fri”, “7 Sat”, and so on. Morning lines are teal; evening lines are terracotta.");
+      routes.forEach((rt) => {
+        const block = document.createElement("div");
+        block.className = "route-block";
+        const h = document.createElement("h3");
+        h.textContent = rt.label;
+        block.appendChild(h);
+        const grid = document.createElement("div");
+        grid.className = "charts" + (slots.length > 1 ? " two" : "");
+        slots.forEach((s) => {
+          const rows = data.readings.filter((r) => r.slot === s && r[rt.key] != null);
+          const card = document.createElement("div");
+          card.className = "chart-card";
+          const title = document.createElement("h3");
+          title.textContent = rt.short + ", " + slotLabel(data, s) + " IST";
+          card.appendChild(title);
+          if (!rows.length) {
+            const p = document.createElement("p");
+            p.className = "caption";
+            p.textContent = "No readings in this slot.";
+            card.appendChild(p);
+          } else {
+            const isH = rt.key === "himadri";
+            const ceiling = isH ? (s === "evening" ? 80 : 45) : s === "evening" ? 35 : 20;
+            card.appendChild(lineChart(rows.map((r) => ({ label: shortDate(r), value: r[rt.key] })), {
+              ceiling,
+              color: s === "morning" ? "#1b6b5c" : "#b5431f",
+              label: rt.short + " " + s
+            }));
+          }
+          grid.appendChild(card);
+        });
+        block.appendChild(grid);
+        trendSec.appendChild(block);
+      });
+      body.appendChild(trendSec);
+
+      const bwSec = section("Best and worst slots");
+      const bwCols = ["Route"].concat(slots.flatMap((s) => ["Best " + ((data.slotMeta[s] && data.slotMeta[s].short) || s), "Worst " + ((data.slotMeta[s] && data.slotMeta[s].short) || s)]));
+      const bwRows = routes.map((rt) => {
+        const cells = [rt.label];
+        slots.forEach((s) => {
+          const items = data.readings.filter((r) => r.slot === s && r[rt.key] != null).map((r) => ({ reading: r, value: r[rt.key] }));
+          cells.push(bestWorstCell(items, true), bestWorstCell(items, false));
+        });
+        return cells;
+      });
+      bwSec.appendChild(makeTable(bwCols, bwRows, { firstWide: true }));
+      const note = document.createElement("p");
+      note.className = "caption";
+      const himEves = data.readings.filter((r) => r.slot === "evening" && r.himadri != null);
+      if (himEves.length) {
+        const worst = Math.max(...himEves.map((r) => r.himadri));
+        const worsts = himEves.filter((r) => r.himadri === worst);
+        const light = Math.min(...himEves.map((r) => r.himadri));
+        const lights = himEves.filter((r) => r.himadri === light);
+        const clockHeavy = data.readings.filter((r) => r.slot === "evening" && r.clock != null && r.clock >= 27);
+        const gmsJam = data.readings.filter((r) => r.slot === "evening" && r.gms != null && r.gms >= 14);
+        let t = "The standout bad evenings are Himadri at " + fmt(worst) + " on " + worsts.map(longDate).join(" and ");
+        t += ". Clock Tower hit " + (clockHeavy.length ? clockHeavy.map((r) => fmt(r.clock) + " on " + longDate(r)).join(" and ") : "no extreme times in this set");
+        t += ". GMS Rd hit " + (gmsJam.length ? gmsJam.map((r) => fmt(r.gms) + " on " + longDate(r)).join(" and ") : "no jam in this set") + ".";
+        t += " The lightest Himadri evenings were " + lights.map((r) => longDate(r) + " at " + fmt(r.himadri)).join(" and ") + ".";
+        note.textContent = t;
+      }
+      bwSec.appendChild(note);
+      body.appendChild(bwSec);
+
+      const altSec = section("Which alternative was faster");
+      altSec.innerHTML += "<h3 style=\"font-size:1rem;margin:0 0 .35rem\">Kanwali Rd vs GMS Rd, evenings</h3><p>" + escapeHtml(data.alternatives.kanwaliVsGms) + "</p>";
+      altSec.innerHTML += "<h3 style=\"font-size:1rem;margin:1rem 0 .35rem\">Shaheed Kashmir Singh Rd / Kaulagarh Rd vs Chakrata Rd, to Clock Tower</h3><p>" + escapeHtml(data.alternatives.clockTowerRoutes) + "</p>";
+      body.appendChild(altSec);
+
+      const rinkSec = section("Himadri Ice Rink trips");
+      rinkSec.classList.add("advice");
+      const himAm = valuesFor(data.readings, "himadri", "morning");
+      const p1 = document.createElement("p");
+      p1.textContent = "Sessions run " + data.rink.sessionHours + ", and you need to reach the rink by " + data.rink.arriveBy + ". Morning drives are consistently light (" + (himAm.length ? fmt(Math.min(...himAm)) + "–" + fmt(Math.max(...himAm)) : "—") + "), but they do not line up with session hours. Among the 6 PM checks, Sunday is the best evening to go (" + fmtAvg(valuesFor(data.readings, "himadri", "evening", "Sunday")) + ") and Saturday evening is the worst and most uneven (" + fmtAvg(valuesFor(data.readings, "himadri", "evening", "Saturday")) + "). Weekday evenings are usually heavy (" + fmtAvg(valuesFor(data.readings, "himadri", "evening", "Weekday")) + ").";
+      const p2 = document.createElement("p");
+      const rets = data.returns || [];
+      if (rets.length) {
+        p2.textContent = "The 1 PM, 4 PM, 6 PM and 7 PM return-trip checks only started on 24–25 Nov, so there is not yet a measured 4 PM leave-by time or a 6-vs-7 PM comparison for the drive home. Return readings so far: " + rets.map((r) => "Himadri to Ballupur on " + r.weekday + " " + Number(r.date.slice(8)) + " Nov at " + r.timeLabel + " took " + fmt(r.minutes) + " via " + r.via + (r.notes ? " (" + r.notes + ")" : "")).join(" ");
+      } else {
+        p2.textContent = "No return-trip readings have been recorded yet.";
+      }
+      rinkSec.appendChild(p1);
+      rinkSec.appendChild(p2);
+      const himCard = document.createElement("div");
+      himCard.className = "chart-card";
+      himCard.appendChild(barChart(BAR_LABELS, [{
+        name: "Himadri",
+        color: SERIES_COLORS[4],
+        values: DAY_TYPES.flatMap((d) => ["morning", "evening"].map((s) => {
+          const a = avg(valuesFor(data.readings, "himadri", s, d));
+          return a == null ? 0 : round1(a);
+        }))
+      }], { ceiling: 80, label: "Himadri averages by day type" }));
+      rinkSec.appendChild(himCard);
+      body.appendChild(rinkSec);
+
+      const tableSec = section(
+        "Every reading",
+        filtered.length + " checks in this view, newest first. An em dash means that route was not recorded that slot. Evening rows with a Himadri time of 1 hr 1 min or more are marked in red, and other unusually heavy evenings are marked in amber."
+      );
+      const newest = filtered.slice().reverse();
+      let cols, rows, tones;
+      if (state.route === "all") {
+        cols = ["Date", "Day", "Slot", "GMS Rd", "Clock Tower", "Pacific Mall", "Centrio Mall", "Himadri", "Notes"];
+        rows = newest.map((r) => [
+          Number(r.date.slice(8)) + " Nov", r.weekday, slotLabel(data, r.slot),
+          fmt(r.gms), fmt(r.clock), fmt(r.pacific), fmt(r.centrio), fmt(r.himadri), r.notes || ""
+        ]);
+        tones = newest.map(rowTone);
+        tableSec.appendChild(makeTable(cols, rows, { numericFrom: 3, numericTo: 7, notesIndex: 8, tones, compact: true }));
+      } else {
+        const rt = data.routes.find((x) => x.key === state.route);
+        cols = ["Date", "Day", "Slot", rt.label, "Notes"];
+        rows = newest.map((r) => [Number(r.date.slice(8)) + " Nov", r.weekday, slotLabel(data, r.slot), fmt(r[state.route]), r.notes || ""]);
+        tones = newest.map(rowTone);
+        tableSec.appendChild(makeTable(cols, rows, { numericFrom: 3, numericTo: 3, notesIndex: 4, tones, compact: true }));
+      }
+      if (rets.length && state.slot === "all" && (state.route === "all" || state.route === "himadri")) {
+        const p = document.createElement("p");
+        p.className = "caption";
+        p.style.marginTop = "1rem";
+        p.textContent = "Return trips (Himadri to Ballupur): " + rets.map((r) => longDate(r) + " " + r.timeLabel + ", " + fmt(r.minutes) + " via " + r.via).join("; ") + ".";
+        tableSec.appendChild(p);
+      }
+      body.appendChild(tableSec);
+    }
+
+    function makeTable(cols, rows, opts) {
+      opts = opts || {};
+      const wrap = document.createElement("div");
+      wrap.className = "table-wrap";
+      const table = document.createElement("table");
+      if (opts.compact) table.className = "compact";
+      const thead = document.createElement("thead");
+      const trh = document.createElement("tr");
+      cols.forEach((c, i) => {
+        const th = document.createElement("th");
+        th.textContent = c;
+        if (opts.numericFrom != null && i >= opts.numericFrom && i <= opts.numericTo) th.className = "num";
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      table.appendChild(thead);
+      const tb = document.createElement("tbody");
+      rows.forEach((row, ri) => {
+        const tr = document.createElement("tr");
+        if (opts.tones && opts.tones[ri]) tr.className = "tone-" + opts.tones[ri];
+        row.forEach((cell, i) => {
+          const td = document.createElement("td");
+          td.textContent = cell;
+          if (opts.numericFrom != null && i >= opts.numericFrom && i <= opts.numericTo) td.className = "num";
+          if (opts.notesIndex === i) td.className = (td.className + " notes").trim();
+          tr.appendChild(td);
+        });
+        tb.appendChild(tr);
+      });
+      table.appendChild(tb);
+      wrap.appendChild(table);
+      return wrap;
+    }
+
+    fetch("data.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error("Could not load data.json (" + r.status + ")");
+        return r.json();
+      })
+      .then(render)
+      .catch((err) => {
+        document.getElementById("app").innerHTML = '<div class="err">The dashboard could not load its readings file (data.json). ' + escapeHtml(err.message) + "</div>";
+      });
+  })();
+  </script>
+</body>
+</html>
