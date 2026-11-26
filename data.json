@@ -1,10 +1,10 @@
 {
   "title": "Dehradun traffic dashboard",
-  "lastUpdated": "25 Nov 2026, 7:15 PM IST",
+  "lastUpdated": "26 Nov 2026, 9:20 AM IST",
   "timezone": "Asia/Calcutta",
   "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
   "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
-  "latestReading": "Wed 25 Nov 2026 return, around 7:10 PM IST",
+  "latestReading": "Thu 26 Nov 2026 morning, around 9:15 AM IST",
   "routes": [
     {
       "key": "gms",
@@ -542,6 +542,18 @@
       "centrio": 18,
       "himadri": 60,
       "notes": "Clock Tower via Kaulagarh Rd (alts 18-19). Himadri via Raipur Rd shown as 1 hr, heavy near Karanpur/Clock Tower. Centrio alt 23."
+    },
+    {
+      "date": "2026-11-26",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "morning",
+      "gms": 5,
+      "clock": 10,
+      "pacific": 11,
+      "centrio": 13,
+      "himadri": 31,
+      "notes": "Himadri 31 min via Chakrata Rd/Rajpur Rd (red); Raipur Rd alt 32. Clock Tower lighter than usual; Pacific Mall moderate."
     }
   ],
   "returns": [
