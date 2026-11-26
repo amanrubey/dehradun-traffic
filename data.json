@@ -1,10 +1,10 @@
 {
   "title": "Dehradun traffic dashboard",
-  "lastUpdated": "26 Nov 2026, 1:20 PM IST",
+  "lastUpdated": "26 Nov 2026, 4:20 PM IST",
   "timezone": "Asia/Calcutta",
   "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
   "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
-  "latestReading": "Thu 26 Nov 2026 afternoon, around 1:10 PM IST",
+  "latestReading": "Thu 26 Nov 2026 leave-by, around 4:15 PM IST",
   "routes": [
     {
       "key": "gms",
@@ -566,6 +566,18 @@
       "centrio": 22,
       "himadri": 50,
       "notes": "Around 1:10 PM IST. Himadri 50 min via Haridwar Rd; Raipur Rd 51 min, much heavier than usual. Clock Tower leg slowed by Chakrata Rd/NH slowdown (14-min delay); Rajpur Rd 12-min delay."
+    },
+    {
+      "date": "2026-11-26",
+      "weekday": "Thu",
+      "dayType": "Weekday",
+      "slot": "leave",
+      "gms": null,
+      "clock": null,
+      "pacific": null,
+      "centrio": null,
+      "himadri": 40,
+      "notes": "Around 4:15 PM IST, Ballupur Chowk to Himadri Ice Rink: 40 min, 11.5 km via Chakrata Rd and Raipur Rd (red, heavier than usual). Alt 40 min, 12.0 km via Cross Rd; alt 43 min, 12.6 km via Haridwar Rd (some traffic, as usual). Only Himadri was checked."
     }
   ],
   "returns": [
