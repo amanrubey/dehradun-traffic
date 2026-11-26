@@ -1,10 +1,10 @@
 {
   "title": "Dehradun traffic dashboard",
-  "lastUpdated": "26 Nov 2026, 6:18 PM IST",
+  "lastUpdated": "26 Nov 2026, 7:17 PM IST",
   "timezone": "Asia/Calcutta",
   "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
   "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
-  "latestReading": "Thu 26 Nov 2026 return, around 6:15 PM IST",
+  "latestReading": "Thu 26 Nov 2026 return, around 7:15 PM IST",
   "routes": [
     {
       "key": "gms",
@@ -624,6 +624,14 @@
       "minutes": 53,
       "via": "Raipur Rd",
       "notes": "12.4 km, red. Alternatives: 56 min (Raipur Rd/Chakrata Rd, 11.8 km, much heavier than usual) and 59 min (Kalidas Rd, 15.0 km, heavier than usual)."
+    },
+    {
+      "date": "2026-11-26",
+      "weekday": "Thu",
+      "timeLabel": "around 7:15 PM IST",
+      "minutes": 38,
+      "via": "Raipur Rd",
+      "notes": "12.1 km. Alternatives: 40 min (Raipur Rd/Pant Rd, 11.8 km, heavy as usual) and 41 min (12.6 km, some traffic as usual). Colours/slow stretches not readable."
     }
   ],
   "gaps": [
