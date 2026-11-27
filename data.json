@@ -1,10 +1,10 @@
 {
   "title": "Dehradun traffic dashboard",
-  "lastUpdated": "27 Nov 2026, 6:10 PM IST",
+  "lastUpdated": "27 Nov 2026, 6:20 PM IST",
   "timezone": "Asia/Calcutta",
   "source": "Driving times from Google Maps for five Ballupur-area routes. Times are the readings reported in Aman’s traffic chat. Empty cells were never recorded, and no times were estimated.",
   "coverage": "6 Nov through the morning of 25 Nov 2026. Checks are around 9 AM and 6 PM IST. Afternoon (1 PM), leave-by (4 PM), and return-trip checks started on 24–25 Nov.",
-  "latestReading": "Fri 27 Nov 2026 return, around 6:05 PM IST",
+  "latestReading": "Fri 27 Nov 2026 evening, around 6:10 PM IST",
   "routes": [
     {
       "key": "gms",
@@ -614,6 +614,18 @@
       "centrio": null,
       "himadri": 37,
       "notes": "Around 4:07 PM IST, Ballupur to Himadri. 37 min, 11.5 km via Chakrata Rd and Raipur Rd (fastest, despite usual traffic). Alternatives: 42 min via Raipur Rd (14.3 km), 43 min via Kanwali Rd (12.8 km). Colours/slow stretches not readable."
+    },
+    {
+      "date": "2026-11-27",
+      "weekday": "Fri",
+      "dayType": "Weekday",
+      "slot": "evening",
+      "gms": 9,
+      "clock": 17,
+      "pacific": 18,
+      "centrio": 18,
+      "himadri": null,
+      "notes": "Around 6:10 PM IST. Balliwala-Ballupur 9 min via Kanwali Rd/Maharani Bagh Ln (12 min via GMS Rd, heavier than usual). Clock Tower 17 min via NH/Chakrata Rd (despite usual traffic; Kaulagarh alt 18 min heavy). Pacific 18 min via Rajpur Rd. Centrio 18 min via Shaheed Kashmir Singh Rd. Himadri about 1 hr (exact minutes not shown; Raipur Rd much heavier than usual) so recorded null."
     }
   ],
   "returns": [
